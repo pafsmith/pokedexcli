@@ -32,7 +32,15 @@ func startRepl(cfg *config) {
 			fmt.Println("Unknown command.")
 			continue
 		}
-		err = command.callback(cfg)
+		
+		args := []string{}	
+		if len(cleanedInputText) > 1 {
+			args = cleanedInputText[1:]
+		} else {
+			args = []string{""}
+		}
+
+		err = command.callback(cfg, args)
 		if err != nil {
 			fmt.Println(err)
 		}
@@ -52,7 +60,7 @@ func cleanInput(text string) []string {
 type cliCommand struct {
 	name        string
 	description string
-	callback    func(*config) error
+	callback    func(*config, []string) error
 }
 
 func getCommands() map[string]cliCommand {
@@ -76,6 +84,11 @@ func getCommands() map[string]cliCommand {
 			name: "mapb",
 			description: "Show prevoious map page",
 			callback: commandMapb,
+		},
+		"explore": {
+			name: "explore",
+			description: "Explore a specific location",
+			callback: commandExplore,
 		},
 	}
 }
