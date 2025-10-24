@@ -11,7 +11,6 @@ func (c *Client) ListLocations(pageURL *string) (RespLocations, error) {
 	if pageURL != nil {
 		url = *pageURL
 	}
-	
 
 	if val, ok := c.cache.Get(url); ok {
 		locationsResp := RespLocations{}

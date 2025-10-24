@@ -11,9 +11,10 @@ import (
 )
 
 type config struct {
-	pokeapiClient   pokeapi.Client
+	pokeapiClient    pokeapi.Client
 	nextLocationsURL *string
 	prevLocationsURL *string
+	pokedex          map[string]pokeapi.RespPokemon
 }
 
 func startRepl(cfg *config) {
@@ -29,7 +30,7 @@ func startRepl(cfg *config) {
 		cleanedInputText := cleanInput(inputText)
 		command, ok := getCommands()[cleanedInputText[0]]
 
-		args := []string{}	
+		args := []string{}
 		if len(cleanedInputText) > 1 {
 			args = cleanedInputText[1:]
 		}
@@ -37,7 +38,6 @@ func startRepl(cfg *config) {
 			fmt.Println("Unknown command.")
 			continue
 		}
-		
 
 		err = command.callback(cfg, args...)
 		if err != nil {
@@ -79,15 +79,20 @@ func getCommands() map[string]cliCommand {
 			description: "Shows map",
 			callback:    commandMap,
 		},
-		"mapb":  {
-			name: "mapb",
+		"mapb": {
+			name:        "mapb",
 			description: "Show prevoious map page",
-			callback: commandMapb,
+			callback:    commandMapb,
 		},
 		"explore": {
-			name: "explore",
+			name:        "explore",
 			description: "Explore a specific location",
-			callback: commandExplore,
+			callback:    commandExplore,
+		},
+		"catch": {
+			name:        "catch",
+			description: "Catch a pokemon",
+			callback:    commandCatch,
 		},
 	}
 }
