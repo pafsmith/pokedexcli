@@ -28,19 +28,18 @@ func startRepl(cfg *config) {
 		inputText := scanner.Text()
 		cleanedInputText := cleanInput(inputText)
 		command, ok := getCommands()[cleanedInputText[0]]
+
+		args := []string{}	
+		if len(cleanedInputText) > 1 {
+			args = cleanedInputText[1:]
+		}
 		if !ok {
 			fmt.Println("Unknown command.")
 			continue
 		}
 		
-		args := []string{}	
-		if len(cleanedInputText) > 1 {
-			args = cleanedInputText[1:]
-		} else {
-			args = []string{""}
-		}
 
-		err = command.callback(cfg, args)
+		err = command.callback(cfg, args...)
 		if err != nil {
 			fmt.Println(err)
 		}
@@ -60,7 +59,7 @@ func cleanInput(text string) []string {
 type cliCommand struct {
 	name        string
 	description string
-	callback    func(*config, []string) error
+	callback    func(*config, ...string) error
 }
 
 func getCommands() map[string]cliCommand {

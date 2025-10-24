@@ -5,20 +5,20 @@ import (
 	"fmt"
 )
 
+func commandExplore(cfg *config, args ...string) error {
+	if len(args) != 1 {
+		return errors.New("please provide a location name")
+	}
+	locationName := args[0]
 
-
-func commandExplore(cfg *config, args []string) error {
- if args[0] == "" {
- 	return errors.New("invalid call")
- }
-locationExploreResp, err := cfg.pokeapiClient.ExploreLocation(args[0])
-if err != nil {
-	return err
-}
-	for _, mon := range locationExploreResp.PokemonEncounters{
+	locationExploreResp, err := cfg.pokeapiClient.ExploreLocation(locationName)
+	if err != nil {
+		return err
+	}
+	fmt.Println("Exploring: %s", locationName)
+	fmt.Println("Pokemon found:")
+	for _, mon := range locationExploreResp.PokemonEncounters {
 		fmt.Println(mon.Pokemon.Name)
 	}
 	return nil
-
-
 }
