@@ -43,7 +43,6 @@ func startRepl(cfg *config) {
 		if err != nil {
 			fmt.Println(err)
 		}
-
 	}
 }
 
@@ -98,6 +97,11 @@ func getCommands() map[string]cliCommand {
 			name:        "insepct",
 			description: "Inspect a caught pokemon",
 			callback:    commandInspect,
+		},
+		"pokedex": {
+			name:        "pokedex",
+			description: "Check what pokemon you have caught",
+			callback:    commandPokedex,
 		},
 	}
 }

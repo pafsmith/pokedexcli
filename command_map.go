@@ -17,6 +17,7 @@ func commandMap(cfg *config, args ...string) error {
 	for _, loc := range locationResp.Results {
 		fmt.Println(loc.Name)
 	}
+	fmt.Println()
 	return nil
 }
 
@@ -36,5 +37,6 @@ func commandMapb(cfg *config, args ...string) error {
 	for _, loc := range locationResp.Results {
 		fmt.Println(loc.Name)
 	}
+	fmt.Println()
 	return nil
 }
